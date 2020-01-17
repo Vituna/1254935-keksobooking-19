@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
-* Студент: [Viktor Ivanov](https://up.htmlacademy.ru/javascript/19/user/1254935).
-* Наставник: `Неизвестно`.
+* Студент: [Viktor Ivanov](https://htmlacademy.ru/profile/id1254935).
+* Наставник: [Артём Рудов](https://htmlacademy.ru/profile/artrudov).
 
 ---
 
