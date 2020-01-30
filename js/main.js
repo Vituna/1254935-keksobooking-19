@@ -38,7 +38,7 @@ var renderPosts = function () {
         'photos': ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg']
       },
       'location': {
-        'x': getRandom(300, 900),
+        'x': getRandom(0, 1200),
         'y': getRandom(130, 630)
       }
     });
