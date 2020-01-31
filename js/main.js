@@ -32,8 +32,8 @@ var getRandom = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-var getOffer = function (i) {
-  var offer = {
+var getOffer = function (elem, i) {
+  elem = {
     'author': {
       'avatar': IMG_AVATARS + (i + 1) + '.png'
     },
@@ -56,14 +56,13 @@ var getOffer = function (i) {
     }
   };
 
-  return offer;
+  return elem;
 
 };
 
 var renderPosts = function () {
 
-  var posts = new Array(QUANTITY).map(getOffer);
-
+  var posts = new Array(QUANTITY).fill('').map(getOffer);
 
   return posts;
 };
