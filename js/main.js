@@ -5,6 +5,7 @@ var ROOM_TYPE = ['palace', 'flat', 'house', 'bungalo'];
 var ADDITIONAL_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var CHECK_TIME = ['12:00', '13:00', '14:00'];
 var IMG_AVATARS = 'img/avatars/user0';
+
 var LocationIcon = {
   MIN_X: 0,
   MAX_X: 1100,
@@ -33,7 +34,7 @@ var getRandom = function (min, max) {
 };
 
 var getOffer = function (elem, i) {
-  elem = {
+  return {
     'author': {
       'avatar': IMG_AVATARS + (i + 1) + '.png'
     },
@@ -55,16 +56,10 @@ var getOffer = function (elem, i) {
       'y': getRandom(LocationIcon.MIN_Y, LocationIcon.MAX_Y)
     }
   };
-
-  return elem;
-
 };
 
 var renderPosts = function () {
-
-  var posts = new Array(QUANTITY).fill('').map(getOffer);
-
-  return posts;
+  return new Array(QUANTITY).fill('').map(getOffer);
 };
 
 var renderPin = function (pin) {
@@ -80,10 +75,10 @@ var renderPin = function (pin) {
   return pinElement;
 };
 
-var createPins = function (posts) {
+var createPins = function (offer) {
   var fragment = document.createDocumentFragment();
 
-  posts.forEach(function (i) {
+  offer.forEach(function (i) {
     fragment.appendChild(renderPin(i));
   });
 
