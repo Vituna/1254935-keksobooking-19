@@ -100,8 +100,6 @@ var createPins = function (offer) {
   mapPins.appendChild(fragment);
 };
 
-
-
 var getRoomType = function (arr) {
   if (arr.offer.type === 'palace') {
     return 'Дворец';
