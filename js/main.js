@@ -137,6 +137,7 @@ var photoKom = function (photoSrc, fragm) {
   popupPhotoItem.width = photo.PHOTO_WIDTH;
   popupPhotoItem.height = photo.PHOTO_HEIGHT;
   fragm.appendChild(popupPhotoItem);
+  announcementCard.querySelector('.popup__photos').innerHTML = '';
 };
 
 var createPhotosFragment = function (elem) {
@@ -176,7 +177,7 @@ var createAd = function (card) {
   announcementCard.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
   announcementCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
   announcementCard.querySelector('.popup__features').appendChild(createFeatureFragment(card));
-  announcementCard.querySelector('.popup__photos').removeChild(announcementCard.querySelector('.popup__photo'));
+  // announcementCard.querySelector('.popup__photos').removeChild(announcementCard.querySelector('.popup__photo'));
   announcementCard.querySelector('.popup__photos').appendChild(createPhotosFragment(card));
   announcementCard.querySelector('.popup__description').textContent = card.offer.description;
 
