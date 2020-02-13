@@ -293,8 +293,8 @@ var removePins = function () {
 };
 
 var deactivationForm = function () {
-  map.classList.add('map--faded');
-  adForm.classList.add('ad-form--disabled');
+  map.classList.toggle('map--faded');
+  adForm.classList.toggle('ad-form--disabled');
   param(true);
   removeCard();
   removePins();
