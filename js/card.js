@@ -14,10 +14,10 @@
   ];
 
   var typesRoomRus = {
-    palace: 'Дворец',
-    flat: 'Квартира',
-    house: 'Дом',
-    bungalo: 'Бунгало'
+    PALACE: 'Дворец',
+    FLAT: 'Квартира',
+    HOUSE: 'Дом',
+    BUNGALO: 'Бунгало'
   };
 
   var photo = {
@@ -49,6 +49,57 @@
   var mapCard = document.querySelector('#card').content.querySelector('.map__card');
   var announcementCard = mapCard.cloneNode(true);
   var popupClose = announcementCard.querySelector('.popup__close');
+
+  var getPhotoRoom = function (photoSrc, fragm) {
+    var popupPhotoItem = document.createElement('img');
+    popupPhotoItem.className = 'popup__photo';
+    popupPhotoItem.src = photoSrc;
+    popupPhotoItem.alt = photo.PHOTO_NAME;
+    popupPhotoItem.width = photo.PHOTO_WIDTH;
+    popupPhotoItem.height = photo.PHOTO_HEIGHT;
+    fragm.appendChild(popupPhotoItem);
+    announcementCard.querySelector('.popup__photos').innerHTML = '';
+  };
+
+  var createPhotosFragment = function (elem) {
+    var photosFragment = document.createDocumentFragment();
+    var elemPhoto = elem.offer.photos;
+    elemPhoto.forEach(function (photoSrc) {
+      getPhotoRoom(photoSrc, photosFragment);
+    });
+    return photosFragment;
+  };
+
+  var getFeature = function (popapFeat, fragme) {
+    var featureItem = document.createElement('li');
+    featureItem.className = 'popup__feature popup__feature--' + popapFeat;
+    fragme.appendChild(featureItem);
+    announcementCard.querySelector('.popup__features').innerHTML = '';
+  };
+
+  var createFeatureFragment = function (elem) {
+    var featureFragment = document.createDocumentFragment();
+    var elemFrag = elem.offer.features;
+    elemFrag.forEach(function (popapFeat) {
+      getFeature(popapFeat, featureFragment);
+
+    });
+    return featureFragment;
+  };
+
+  var mouseClikClosePopup = function (evt) {
+    window.utils.mouseClik(evt, announcementCard.remove());
+  };
+
+  var keyClosePopup = function (evt) {
+    window.utils.keyEsc(evt, announcementCard);
+  };
+
+
+  var keyClose = function (evt) {
+    window.utils.keyEnter(evt, announcementCard.remove());
+
+  };
 
   window.card = {
     getOffer: function (elem, i) {
@@ -92,62 +143,8 @@
 
 
       return announcementCard;
-    }
+    },
 
-  };
-
-  var photoKom = function (photoSrc, fragm) {
-    var popupPhotoItem = document.createElement('img');
-    popupPhotoItem.className = 'popup__photo';
-    popupPhotoItem.src = photoSrc;
-    popupPhotoItem.alt = photo.PHOTO_NAME;
-    popupPhotoItem.width = photo.PHOTO_WIDTH;
-    popupPhotoItem.height = photo.PHOTO_HEIGHT;
-    fragm.appendChild(popupPhotoItem);
-    announcementCard.querySelector('.popup__photos').innerHTML = '';
-  };
-
-  var createPhotosFragment = function (elem) {
-    var photosFragment = document.createDocumentFragment();
-    var elemPhoto = elem.offer.photos;
-    elemPhoto.forEach(function (photoSrc) {
-      photoKom(photoSrc, photosFragment);
-    });
-    return photosFragment;
-  };
-
-  var getFeature = function (popapFeat, fragme) {
-    var featureItem = document.createElement('li');
-    featureItem.className = 'popup__feature popup__feature--' + popapFeat;
-    fragme.appendChild(featureItem);
-    announcementCard.querySelector('.popup__features').innerHTML = '';
-  };
-
-  var createFeatureFragment = function (elem) {
-    var featureFragment = document.createDocumentFragment();
-    var elemFrag = elem.offer.features;
-    elemFrag.forEach(function (popapFeat) {
-      getFeature(popapFeat, featureFragment);
-
-    });
-    return featureFragment;
-  };
-
-  var mouseClikClosePopup = function (evt) {
-    window.utils.mouseClik(evt, announcementCard.remove());
-  };
-
-  var keyClosePopup = function (evt) {
-    window.utils.keyEsc(evt, announcementCard);
-  };
-
-
-  var keyClose = function (evt) {
-    window.utils.keyEnter(evt, announcementCard.remove());
-
-  };
-
-  window.removeCrads = {
     removeCard: function () {
       var mapChildren = [].slice.call(map.children);
       mapChildren.forEach(function (el) {
