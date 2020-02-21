@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var QUANTITY = 7;
+  var QUANTITY = 4;
 
   var map = document.querySelector('.map');
   var mapPins = map.querySelector('.map__pins');
@@ -25,26 +25,26 @@
       window.card.createAd(pin);
     };
 
+    var keyEnterPin = function (evt) {
+      window.utils.keyEnter(evt, pinClik);
+    };
+
     var mouseClikPin = function (evt) {
       window.utils.mouseClik(evt, pinClik());
     };
 
-    var keyEnterPress = function (evt) {
-      window.utils.keyEnterPin(evt, pinClik);
-    };
-
-    pinElement.addEventListener('keydown', keyEnterPress);
+    pinElement.addEventListener('keydown', keyEnterPin);
     pinElement.addEventListener('mousedown', mouseClikPin);
 
     return pinElement;
   };
 
   window.pins = {
-    renderPosts: function () {
-      return new Array(QUANTITY).fill('').map(window.card.getOffer);
+    createPins: function () {
+      return new Array(QUANTITY).fill('').map(window.data.getOffer);
     },
 
-    createPins: function (offer) {
+    renderPosts: function (offer) {
       var fragment = document.createDocumentFragment();
 
       offer.forEach(function (i) {
@@ -53,15 +53,6 @@
 
       mapPins.appendChild(fragment);
     },
-
-    removePins: function () {
-      var mapPinsChildren = [].slice.call(mapPins.children);
-      mapPinsChildren.forEach(function (el) {
-        if (el.classList.contains('map__pin') && !el.classList.contains('map__pin--main')) {
-          el.remove();
-        }
-      });
-    }
   };
 
 })();

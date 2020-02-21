@@ -1,12 +1,12 @@
 'use strict';
 
-window.utils = (function () {
+(function () {
   var MOUSE_LEFT_BUTTON = 0;
   var ESC_KEY = 'Escape';
   var ENTER_KEY = 'Enter';
 
 
-  return {
+  window.utils = {
     mouseClik: function (evt) {
       return evt.button === MOUSE_LEFT_BUTTON;
     },
@@ -17,14 +17,11 @@ window.utils = (function () {
       }
     },
 
-    keyEnter: function (evt) {
-      return evt.key === ENTER_KEY;
-    },
-
-    keyEnterPin: function (evt, action) {
+    keyEnter: function (evt, action) {
       if (evt.key === ENTER_KEY) {
         action();
       }
+
     },
 
     getRandom: function (min, max) {

@@ -64,28 +64,22 @@
 
   addTitle.addEventListener('invalid', headline);
 
-  var setPrice = function (evt) {
-    switch (evt.target.value) {
-      case 'bungalo':
-        adPrice.min = 0;
-        adPrice.placeholder = '0';
-        break;
-      case 'flat':
-        adPrice.min = 1000;
-        adPrice.placeholder = '1000';
-        break;
-      case 'house':
-        adPrice.min = 5000;
-        adPrice.placeholder = '5000';
-        break;
-      case 'palace':
-        adPrice.min = 10000;
-        adPrice.placeholder = '10000';
-        break;
-    }
+  var minPriceTypes = {
+    'bungalo': 0,
+    'flat': 1000,
+    'house': 5000,
+    'palace': 10000
   };
 
-  addType.addEventListener('change', setPrice);
+  var setPriceMin = function (input, data) {
+    input.min = data;
+    input.placeholder = data;
+
+  };
+
+  addType.addEventListener('change', function (evt) {
+    setPriceMin(adPrice, minPriceTypes[evt.target.value]);
+  });
 
   adTimein.addEventListener('change', function (evt) {
     adTimeout.value = evt.target.value;
@@ -99,5 +93,6 @@
   roomNumber.addEventListener('change', onRoomNumberChange);
 
   fillAddressInput();
+
 
 })();

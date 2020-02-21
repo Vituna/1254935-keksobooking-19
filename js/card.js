@@ -1,17 +1,6 @@
 'use strict';
 
 (function () {
-  var OFFER_TITLE = ['Сдается квартира', 'Сдается дом', 'Сдается студия', 'Сдается пентхауз', 'Продается гараж', 'Сдаются апартаменты', 'Помещение в аренду', 'Продается подвал'];
-  var ROOM_TYPE = ['palace', 'flat', 'house', 'bungalo'];
-  var ADDITIONAL_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-  var CHECK_TIME = ['12:00', '13:00', '14:00'];
-  var IMG_AVATARS = 'img/avatars/user0';
-  var PHOTOS = [
-    'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
-    'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-    'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
-
-  ];
 
   var typesRoomRus = {
     PALACE: 'Дворец',
@@ -25,24 +14,6 @@
     PHOTO_WIDTH: '45',
     PHOTO_HEIGHT: '40'
   };
-  var LocationIcon = {
-    MIN_X: 0,
-    MAX_X: 1100,
-    MIN_Y: 130,
-    MAX_Y: 630
-  };
-  var Rooms = {
-    MIN_ROOMS: 1,
-    MAX_ROOMS: 10
-  };
-  var Guest = {
-    MIN_GUEST: 1,
-    MAX_GUEST: 15
-  };
-  var Price = {
-    MIN_PRICE: 1000,
-    MAX_PRICE: 10000
-  };
 
   var map = document.querySelector('.map');
   var mapFiltersContainer = map.querySelector('.map__filters-container');
@@ -50,14 +21,14 @@
   var announcementCard = mapCard.cloneNode(true);
   var popupClose = announcementCard.querySelector('.popup__close');
 
-  var getPhotoRoom = function (photoSrc, fragm) {
+  var getPhotoRoom = function (photoSrc, fragment) {
     var popupPhotoItem = document.createElement('img');
     popupPhotoItem.className = 'popup__photo';
     popupPhotoItem.src = photoSrc;
     popupPhotoItem.alt = photo.PHOTO_NAME;
     popupPhotoItem.width = photo.PHOTO_WIDTH;
     popupPhotoItem.height = photo.PHOTO_HEIGHT;
-    fragm.appendChild(popupPhotoItem);
+    fragment.appendChild(popupPhotoItem);
     announcementCard.querySelector('.popup__photos').innerHTML = '';
   };
 
@@ -70,10 +41,10 @@
     return photosFragment;
   };
 
-  var getFeature = function (popapFeat, fragme) {
+  var getFeature = function (popapFeat, fragment) {
     var featureItem = document.createElement('li');
     featureItem.className = 'popup__feature popup__feature--' + popapFeat;
-    fragme.appendChild(featureItem);
+    fragment.appendChild(featureItem);
     announcementCard.querySelector('.popup__features').innerHTML = '';
   };
 
@@ -95,37 +66,11 @@
     window.utils.keyEsc(evt, announcementCard);
   };
 
+  popupClose.addEventListener('mousedown', mouseClikClosePopup);
 
-  var keyClose = function (evt) {
-    window.utils.keyEnter(evt, announcementCard.remove());
-
-  };
+  map.addEventListener('keydown', keyClosePopup);
 
   window.card = {
-    getOffer: function (elem, i) {
-      return {
-        'author': {
-          'avatar': IMG_AVATARS + (i + 1) + '.png'
-        },
-        'offer': {
-          'title': OFFER_TITLE[i],
-          'address': window.utils.getRandom(LocationIcon.MIN_X, LocationIcon.MAX_X) + ', ' + window.utils.getRandom(LocationIcon.MIN_Y, LocationIcon.MAX_Y),
-          'price': window.utils.getRandom(Price.MIN_PRICE, Price.MAX_PRICE),
-          'type': window.utils.getRandomArrElement(ROOM_TYPE),
-          'rooms': window.utils.getRandom(Rooms.MIN_ROOMS, Rooms.MAX_ROOMS),
-          'guests': window.utils.getRandom(Guest.MIN_GUEST, Guest.MAX_GUEST),
-          'checkin': window.utils.getRandomArrElement(CHECK_TIME),
-          'checkout': window.utils.getRandomArrElement(CHECK_TIME),
-          'features': ADDITIONAL_FEATURES,
-          'description': 'Описание',
-          'photos': PHOTOS
-        },
-        'location': {
-          'x': window.utils.getRandom(LocationIcon.MIN_X, LocationIcon.MAX_X),
-          'y': window.utils.getRandom(LocationIcon.MIN_Y, LocationIcon.MAX_Y)
-        }
-      };
-    },
 
     createAd: function (card) {
       announcementCard.querySelector('.popup__avatar').src = card.author.avatar;
@@ -144,21 +89,7 @@
 
       return announcementCard;
     },
-
-    removeCard: function () {
-      var mapChildren = [].slice.call(map.children);
-      mapChildren.forEach(function (el) {
-        if (el.classList.contains('map__card')) {
-          el.remove();
-        }
-      });
-    }
   };
-
-  popupClose.addEventListener('keydown', keyClose);
-  popupClose.addEventListener('mousedown', mouseClikClosePopup);
-
-  map.addEventListener('keydown', keyClosePopup);
 
 
 })();
