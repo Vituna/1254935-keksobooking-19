@@ -10,9 +10,16 @@
   var adForm = document.querySelector('.ad-form');
   var fieldsets = adForm.querySelectorAll('.ad-form__element');
 
-  var findsFieldsetsDisconnects = function (activDeactiv) {
-    fieldsets.forEach(function (activ) {
-      activ.disabled = activDeactiv;
+  var onLoadError = function (errorMessage) {
+    window.error.renderErrorMessage(errorMessage);
+  };
+  var onLoadSuccess = function (adData) {
+    window.pins.renderPins(adData);
+  };
+
+  var findsFieldsetsDisconnects = function (Disconnect) {
+    fieldsets.forEach(function (disable) {
+      disable.disabled = Disconnect;
     });
   };
 
@@ -31,12 +38,12 @@
       }
     });
   };
-  var mouseClikOpenPopup = function (evt) {
+  var onPopupClik = function (evt) {
     window.utils.mouseClik(evt, activatePage());
 
   };
 
-  var keyEnterActivation = function (evt) {
+  var onPinEnter = function (evt) {
     window.utils.keyEnter(evt, activatePage);
   };
 
@@ -49,16 +56,15 @@
   };
 
   var activatePage = function () {
+    window.backend.load(onLoadSuccess, onLoadError);
     if (isActivate) {
       toggleActivation();
-      window.pins.renderPosts(window.pins.createPins());
       isActivate = false;
-
     }
   };
 
-  mapPinMain.addEventListener('mousedown', mouseClikOpenPopup);
-  mapPinMain.addEventListener('keydown', keyEnterActivation);
+  mapPinMain.addEventListener('mousedown', onPopupClik);
+  mapPinMain.addEventListener('keydown', onPinEnter);
 
   window.page = {
     deactivatePage: function () {
@@ -66,6 +72,7 @@
       isActivate = true;
       removeCard();
       removePins();
+      window.pins.defaultPins();
     }
   };
 

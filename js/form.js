@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var POSITION_X = 30;
-  var POSITION_Y = 40;
   var MIN_NAME_LENGTH = 30;
   var MAX_NAME_LENGTH = 100;
   var ROOMS_CAPACITY = {
@@ -11,11 +9,16 @@
     '3': ['3', '2', '1'],
     '100': ['0']
   };
-  var mapPinMainPositionX;
-  var mapPinMainPositionY;
+  var MinPriceTypes = {
+    'bungalo': 0,
+    'flat': 1000,
+    'house': 5000,
+    'palace': 10000
+  };
 
   var map = document.querySelector('.map');
   var mapPinMain = map.querySelector('.map__pin--main');
+  var adAddress = document.querySelector('#address');
   var adForm = document.querySelector('.ad-form');
   var adFormReset = adForm.querySelector('.ad-form__reset');
   var addTitle = document.querySelector('#title');
@@ -23,21 +26,21 @@
   var addType = document.querySelector('#type');
   var adTimein = document.querySelector('#timein');
   var adTimeout = document.querySelector('#timeout');
-  var adAddress = document.querySelector('#address');
   var roomNumber = document.querySelector('#room_number');
   var capacityRoom = document.querySelector('#capacity');
 
   adAddress.disabled = true;
 
-  var fillAddressInput = function () {
-    var getElementPosition = function (posX, posY, obj) {
-      posX = obj.offsetLeft + POSITION_X;
-      posY = obj.offsetTop + POSITION_Y;
-      return posX + ', ' + posY;
-    };
-    adAddress.value = getElementPosition(mapPinMainPositionX, mapPinMainPositionY, mapPinMain);
-  };
 
+  adAddress.value = Math.floor(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.floor(mapPinMain.offsetTop + mapPinMain.offsetHeight);
+
+  var getMapPinMainCoords = function () {
+    var mapPinMainPosition = {
+      x: mapPinMain.offsetLeft + Math.floor(mapPinMain.offsetWidth / 2),
+      y: mapPinMain.offsetTop + mapPinMain.offsetHeight
+    };
+    return mapPinMainPosition;
+  };
 
   var onRoomNumberChange = function () {
     if (capacityRoom.options.length) {
@@ -64,21 +67,13 @@
 
   addTitle.addEventListener('invalid', headline);
 
-  var minPriceTypes = {
-    'bungalo': 0,
-    'flat': 1000,
-    'house': 5000,
-    'palace': 10000
-  };
-
   var setPriceMin = function (input, data) {
     input.min = data;
     input.placeholder = data;
-
   };
 
   addType.addEventListener('change', function (evt) {
-    setPriceMin(adPrice, minPriceTypes[evt.target.value]);
+    setPriceMin(adPrice, MinPriceTypes[evt.target.value]);
   });
 
   adTimein.addEventListener('change', function (evt) {
@@ -92,7 +87,41 @@
   adFormReset.addEventListener('mousedown', window.page.deactivatePage);
   roomNumber.addEventListener('change', onRoomNumberChange);
 
-  fillAddressInput();
+  var success = document.querySelector('.success');
+
+  var showSuccess = function () {
+    success.classList.remove('hidden');
+    success.addEventListener('keydown', function (evt) {
+      if (window.utils.keyEsc(evt)) {
+        success.classList.add('hidden');
+      }
+    });
+    document.addEventListener('click', function () {
+      success.classList.add('hidden');
+    });
+  };
+
+  var onSubmitSuccess = function () {
+    window.page.deactivatePage();
+    showSuccess();
+  };
+
+  var onSubmitError = function (errorMessage) {
+    window.error.renderErrorMessage(errorMessage);
+  };
+
+  adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    var formData = new FormData(adForm);
+    window.backend.upload(onSubmitSuccess, onSubmitError, formData);
+  });
+
+  window.addres = {
+    fillAddress: function () {
+      var addressInputCoords = getMapPinMainCoords();
+      adAddress.value = addressInputCoords.x + ', ' + addressInputCoords.y;
+    },
+  };
 
 
 })();

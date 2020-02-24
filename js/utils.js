@@ -4,6 +4,7 @@
   var MOUSE_LEFT_BUTTON = 0;
   var ESC_KEY = 'Escape';
   var ENTER_KEY = 'Enter';
+  var DEBOUNCE_INTERVAL = 300;
 
 
   window.utils = {
@@ -11,15 +12,15 @@
       return evt.button === MOUSE_LEFT_BUTTON;
     },
 
-    keyEsc: function (evt, action) {
+    keyEsc: function (evt, cd) {
       if (evt.key === ESC_KEY) {
-        action.remove();
+        cd.remove();
       }
     },
 
-    keyEnter: function (evt, action) {
+    keyEnter: function (evt, cd) {
       if (evt.key === ENTER_KEY) {
-        action();
+        cd();
       }
 
     },
@@ -32,7 +33,18 @@
       return arr[Math.floor(Math.random() * arr.length)];
     },
 
-
+    debounce: function (fun) {
+      var lastTimeout = null;
+      return function () {
+        var args = arguments;
+        if (lastTimeout) {
+          window.clearTimeout(lastTimeout);
+        }
+        lastTimeout = window.setTimeout(function () {
+          fun.apply(null, args);
+        }, DEBOUNCE_INTERVAL);
+      };
+    }
   };
 
 })();

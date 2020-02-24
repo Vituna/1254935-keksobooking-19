@@ -2,10 +2,7 @@
 
 (function () {
 
-  var POSITION_X = 30;
-  var POSITION_Y = 40;
-
-  var DRAG_LIMIT = {
+  var DragLimit = {
     X: {
       MIN: 0,
       MAX: 1200
@@ -18,20 +15,9 @@
 
   var map = document.querySelector('.map');
   var mapPinMain = map.querySelector('.map__pin--main');
-  var adAddress = document.querySelector('#address');
 
 
-  adAddress.value = Math.floor(mapPinMain.offsetLeft - mapPinMain.offsetWidth / 2) + ', ' + Math.floor(mapPinMain.offsetTop - mapPinMain.offsetHeight / 2);
-
-  var getMapPinMainCoords = function () {
-    var mapPinMainPosition = {
-      x: mapPinMain.offsetLeft + POSITION_X / 2,
-      y: mapPinMain.offsetTop + POSITION_Y
-    };
-    return mapPinMainPosition;
-  };
-
-  mapPinMain.addEventListener('mousedown', function (evt) {
+  var drag = function (evt) {
     evt.preventDefault();
     var startCoords = {
       x: evt.clientX,
@@ -48,14 +34,24 @@
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
-      var mapPinCoords = getMapPinMainCoords();
-      if (getMapPinMainCoords().y - shift.y >= DRAG_LIMIT.Y.MIN && getMapPinMainCoords().y - shift.y <= DRAG_LIMIT.Y.MAX) {
-        mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
+
+      var mapPinMainPosition = {
+        x: mapPinMain.offsetLeft - shift.x,
+        y: mapPinMain.offsetTop - shift.y
+      };
+      var Border = {
+        TOP: DragLimit.Y.MIN - mapPinMain.offsetHeight,
+        BOTTOM: DragLimit.Y.MAX - mapPinMain.offsetHeight,
+        LEFT: DragLimit.X.MIN,
+        RIGHT: DragLimit.X.MAX - mapPinMain.offsetWidth
+      };
+      if (mapPinMainPosition.x >= Border.LEFT && mapPinMainPosition.x <= Border.RIGHT) {
+        mapPinMain.style.left = mapPinMainPosition.x + 'px';
       }
-      if ((getMapPinMainCoords().x - POSITION_X / 2) - shift.x >= DRAG_LIMIT.X.MIN && (getMapPinMainCoords().x + POSITION_X / 2) - shift.x <= DRAG_LIMIT.X.MAX) {
-        mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
+      if (mapPinMainPosition.y >= Border.TOP && mapPinMainPosition.y <= Border.BOTTOM) {
+        mapPinMain.style.top = mapPinMainPosition.y + 'px';
       }
-      adAddress.value = mapPinCoords.x + ', ' + mapPinCoords.y;
+      window.addres.fillAddress();
     };
 
     var onMouseUp = function (upEvt) {
@@ -66,7 +62,9 @@
 
     map.addEventListener('mousemove', onMouseMove);
     map.addEventListener('mouseup', onMouseUp);
-  });
+  };
+
+  mapPinMain.addEventListener('mousedown', drag);
 
 
 })();
