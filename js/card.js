@@ -2,14 +2,14 @@
 
 (function () {
 
-  var typesRoomRus = {
+  var TypesRoomRus = {
     PALACE: 'Дворец',
     FLAT: 'Квартира',
     HOUSE: 'Дом',
     BUNGALO: 'Бунгало'
   };
 
-  var photo = {
+  var Photo = {
     PHOTO_NAME: 'Фотография жилья',
     PHOTO_WIDTH: '45',
     PHOTO_HEIGHT: '40'
@@ -25,9 +25,9 @@
     var popupPhotoItem = document.createElement('img');
     popupPhotoItem.className = 'popup__photo';
     popupPhotoItem.src = photoSrc;
-    popupPhotoItem.alt = photo.PHOTO_NAME;
-    popupPhotoItem.width = photo.PHOTO_WIDTH;
-    popupPhotoItem.height = photo.PHOTO_HEIGHT;
+    popupPhotoItem.alt = Photo.PHOTO_NAME;
+    popupPhotoItem.width = Photo.PHOTO_WIDTH;
+    popupPhotoItem.height = Photo.PHOTO_HEIGHT;
     fragment.appendChild(popupPhotoItem);
     announcementCard.querySelector('.popup__photos').innerHTML = '';
   };
@@ -58,17 +58,17 @@
     return featureFragment;
   };
 
-  var mouseClikClosePopup = function (evt) {
+  var onPopupClik = function (evt) {
     window.utils.mouseClik(evt, announcementCard.remove());
   };
 
-  var keyClosePopup = function (evt) {
+  var onPopupEsc = function (evt) {
     window.utils.keyEsc(evt, announcementCard);
   };
 
-  popupClose.addEventListener('mousedown', mouseClikClosePopup);
+  popupClose.addEventListener('mousedown', onPopupClik);
 
-  map.addEventListener('keydown', keyClosePopup);
+  map.addEventListener('keydown', onPopupEsc);
 
   window.card = {
 
@@ -77,7 +77,7 @@
       announcementCard.querySelector('.popup__title').textContent = card.offer.title;
       announcementCard.querySelector('.popup__text--address').textContent = card.offer.address;
       announcementCard.querySelector('.popup__text--price').textContent = card.offer.price + ' ₽/ночь';
-      announcementCard.querySelector('.popup__type').textContent = typesRoomRus[card.offer.type];
+      announcementCard.querySelector('.popup__type').textContent = TypesRoomRus[card.offer.type];
       announcementCard.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
       announcementCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
       announcementCard.querySelector('.popup__features').appendChild(createFeatureFragment(card));

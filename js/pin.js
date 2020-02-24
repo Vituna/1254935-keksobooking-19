@@ -1,10 +1,17 @@
 'use strict';
 
 (function () {
-  var QUANTITY = 4;
+
+  var DEFAULT_MAIN_PIN_X = 601;
+  var DEFAULT_MAIN_PIN_Y = 404;
+  var PinSize = {
+    WIDTH: 65,
+    HEIGHT: 65,
+  };
 
   var map = document.querySelector('.map');
   var mapPins = map.querySelector('.map__pins');
+  var mapPinMain = map.querySelector('.map__pin--main');
   var mapPin = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapCard = document.querySelector('#card').content.querySelector('.map__card');
 
@@ -25,34 +32,34 @@
       window.card.createAd(pin);
     };
 
-    var keyEnterPin = function (evt) {
+    var onPinEnter = function (evt) {
       window.utils.keyEnter(evt, pinClik);
     };
 
-    var mouseClikPin = function (evt) {
+    var onPinClik = function (evt) {
       window.utils.mouseClik(evt, pinClik());
     };
 
-    pinElement.addEventListener('keydown', keyEnterPin);
-    pinElement.addEventListener('mousedown', mouseClikPin);
+    pinElement.addEventListener('keydown', onPinEnter);
+    pinElement.addEventListener('mousedown', onPinClik);
 
     return pinElement;
   };
 
   window.pins = {
-    createPins: function () {
-      return new Array(QUANTITY).fill('').map(window.data.getOffer);
-    },
-
-    renderPosts: function (offer) {
+    renderPins: function (offer) {
       var fragment = document.createDocumentFragment();
 
       offer.forEach(function (i) {
         fragment.appendChild(renderPin(i));
       });
-
       mapPins.appendChild(fragment);
     },
+    defaultPins: function () {
+      mapPinMain.style.top = DEFAULT_MAIN_PIN_Y - PinSize.HEIGHT / 2 + 'px';
+      mapPinMain.style.left = DEFAULT_MAIN_PIN_X - PinSize.WIDTH / 2 + 'px';
+
+    }
   };
 
 })();
