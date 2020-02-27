@@ -10,18 +10,20 @@
   var adForm = document.querySelector('.ad-form');
   var fieldsets = adForm.querySelectorAll('.ad-form__element');
 
-  var onLoadError = function (errorMessage) {
+  /* var onLoadError = function (errorMessage) {
     window.error.renderErrorMessage(errorMessage);
-  };
+  };*/
   var onLoadSuccess = function (adData) {
     window.pins.renderPins(adData);
   };
 
-  var findsFieldsetsDisconnects = function (Disconnect) {
-    fieldsets.forEach(function (disable) {
-      disable.disabled = Disconnect;
+  var findsFieldsetsDisconnects = function (disconnect) {
+    fieldsets.forEach(function (disa) {
+      disa.disabled = disconnect;
     });
   };
+  findsFieldsetsDisconnects(true);
+
 
   var removeCard = function () {
     var mapCard = document.querySelector('.map__card');
@@ -51,14 +53,14 @@
     if (window.utils.mouseClik) {
       map.classList.toggle('map--faded');
       adForm.classList.toggle('ad-form--disabled');
-      findsFieldsetsDisconnects(false);
     }
   };
 
   var activatePage = function () {
-    window.backend.load(onLoadSuccess, onLoadError);
+    window.backend.load(onLoadSuccess);
     if (isActivate) {
       toggleActivation();
+      findsFieldsetsDisconnects(false);
       isActivate = false;
     }
   };
@@ -69,6 +71,7 @@
   window.page = {
     deactivatePage: function () {
       toggleActivation();
+      findsFieldsetsDisconnects(true);
       isActivate = true;
       removeCard();
       removePins();

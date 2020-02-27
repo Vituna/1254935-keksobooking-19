@@ -1,42 +1,32 @@
 'use strict';
 
 (function () {
-  var ServerUrl = {
-    LOAD: 'https://js.dump.academy/keksobooking/data',
-    UPLOAD: 'https://js.dump.academy/keksobooking'
-  };
-  var MessageText = {
-    ERROR_LOAD: 'Произошла неизвестная ошибка. Пожалуйста, обновите страницу.',
-    ERROR_SERVER: 'Произошла ошибка соединения. Пожалуйста, обновите страницу.',
-    ERROR_TIMEOUT: 'Сервер долго не отвечает. Пожалуйста, обновите страницу.'
-  };
-  var createXhr = function (method, url, onLoad, onError, data) {
+  var UPLOAD = 'https://js.dump.academy/keksobooking';
+  var LOAD = 'https://js.dump.academy/keksobooking/data';
+
+  var setup = function (onLoad) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
+
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
-        onLoad(xhr.response);
-      } else {
-        onError(MessageText.ERROR_LOAD);
-      }
+      onLoad(xhr.response);
     });
-    xhr.addEventListener('error', function () {
-      onError(MessageText.ERROR_SERVER);
-    });
-    xhr.addEventListener('timeout', function () {
-      onError(MessageText.ERROR_TIMEOUT);
-    });
-    xhr.open(method, url);
-    xhr.send(data ? data : '');
+
+    return xhr;
   };
-  var load = function (onLoad, onError) {
-    createXhr('GET', ServerUrl.LOAD, onLoad, onError);
-  };
-  var upload = function (onLoad, onError, data) {
-    createXhr('POST', ServerUrl.UPLOAD, onLoad, onError, data);
-  };
+
   window.backend = {
-    load: load,
-    upload: upload
+    upload: function (data, onLoad, onError) {
+      var xhr = setup(onLoad, onError);
+      xhr.open('POST', UPLOAD);
+      xhr.send(data);
+    },
+
+    load: function (onLoad, onError) {
+      var xhr = setup(onLoad, onError);
+      xhr.open('GET', LOAD);
+      xhr.send();
+    }
   };
+
 })();

@@ -14,7 +14,7 @@
 
     keyEsc: function (evt, cd) {
       if (evt.key === ESC_KEY) {
-        cd.remove();
+        cd();
       }
     },
 
@@ -44,7 +44,7 @@
           fun.apply(null, args);
         }, DEBOUNCE_INTERVAL);
       };
-    }
+    },
   };
 
 })();

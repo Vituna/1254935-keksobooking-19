@@ -29,15 +29,21 @@
     popupPhotoItem.width = Photo.PHOTO_WIDTH;
     popupPhotoItem.height = Photo.PHOTO_HEIGHT;
     fragment.appendChild(popupPhotoItem);
-    announcementCard.querySelector('.popup__photos').innerHTML = '';
   };
 
   var createPhotosFragment = function (elem) {
     var photosFragment = document.createDocumentFragment();
     var elemPhoto = elem.offer.photos;
-    elemPhoto.forEach(function (photoSrc) {
-      getPhotoRoom(photoSrc, photosFragment);
-    });
+    var popupPhotos = announcementCard.querySelector('.popup__photos');
+    popupPhotos.innerHTML = '';
+    if (elemPhoto.length === 0) {
+      popupPhotos.style.display = 'none';
+    } else {
+      popupPhotos.style.display = 'block';
+      elemPhoto.forEach(function (photoSrc) {
+        getPhotoRoom(photoSrc, photosFragment);
+      });
+    }
     return photosFragment;
   };
 
@@ -45,25 +51,34 @@
     var featureItem = document.createElement('li');
     featureItem.className = 'popup__feature popup__feature--' + popapFeat;
     fragment.appendChild(featureItem);
-    announcementCard.querySelector('.popup__features').innerHTML = '';
   };
 
   var createFeatureFragment = function (elem) {
     var featureFragment = document.createDocumentFragment();
     var elemFrag = elem.offer.features;
-    elemFrag.forEach(function (popapFeat) {
-      getFeature(popapFeat, featureFragment);
+    var popupFeatures = announcementCard.querySelector('.popup__features');
+    popupFeatures.innerHTML = '';
+    if (elemFrag.length === 0) {
+      popupFeatures.style.display = 'none';
+    } else {
+      popupFeatures.style.display = 'block';
+      elemFrag.forEach(function (popapFeat) {
+        getFeature(popapFeat, featureFragment);
+      });
+    }
 
-    });
     return featureFragment;
   };
 
   var onPopupClik = function (evt) {
     window.utils.mouseClik(evt, announcementCard.remove());
   };
+  var onPopupClose = function () {
+    announcementCard.remove();
+  };
 
   var onPopupEsc = function (evt) {
-    window.utils.keyEsc(evt, announcementCard);
+    window.utils.keyEsc(evt, onPopupClose);
   };
 
   popupClose.addEventListener('mousedown', onPopupClik);
