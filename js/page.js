@@ -10,11 +10,8 @@
   var adForm = document.querySelector('.ad-form');
   var fieldsets = adForm.querySelectorAll('.ad-form__element');
 
-  /* var onLoadError = function (errorMessage) {
-    window.error.renderErrorMessage(errorMessage);
-  };*/
   var onLoadSuccess = function (adData) {
-    window.pins.renderPins(adData);
+    window.filter.activateFiltration(adData);
   };
 
   var findsFieldsetsDisconnects = function (disconnect) {
@@ -23,7 +20,6 @@
     });
   };
   findsFieldsetsDisconnects(true);
-
 
   var removeCard = function () {
     var mapCard = document.querySelector('.map__card');
@@ -75,6 +71,7 @@
       isActivate = true;
       removeCard();
       removePins();
+      window.filter.deactivateFiltration();
       window.pins.defaultPins();
     }
   };

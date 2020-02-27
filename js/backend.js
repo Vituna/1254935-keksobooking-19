@@ -16,14 +16,14 @@
   };
 
   window.backend = {
-    upload: function (data, onLoad, onError) {
-      var xhr = setup(onLoad, onError);
+    upload: function (data, onLoad) {
+      var xhr = setup(onLoad);
       xhr.open('POST', UPLOAD);
       xhr.send(data);
     },
 
-    load: function (onLoad, onError) {
-      var xhr = setup(onLoad, onError);
+    load: function (onLoad) {
+      var xhr = setup(onLoad);
       xhr.open('GET', LOAD);
       xhr.send();
     }

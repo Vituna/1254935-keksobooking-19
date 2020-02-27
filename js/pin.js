@@ -10,10 +10,10 @@
   };
 
   var map = document.querySelector('.map');
+  var mapCard = map.querySelector('.map__card');
   var mapPins = map.querySelector('.map__pins');
   var mapPinMain = map.querySelector('.map__pin--main');
   var mapPin = document.querySelector('#pin').content.querySelector('.map__pin');
-  var mapCard = document.querySelector('#card').content.querySelector('.map__card');
 
   var renderPin = function (pin) {
     var pinElement = mapPin.cloneNode(true);
@@ -47,14 +47,15 @@
   };
 
   window.pins = {
+
     renderPins: function (offer) {
       var fragment = document.createDocumentFragment();
-
       offer.forEach(function (i) {
         fragment.appendChild(renderPin(i));
       });
       mapPins.appendChild(fragment);
     },
+
     defaultPins: function () {
       mapPinMain.style.top = DEFAULT_MAIN_PIN_Y - PinSize.HEIGHT / 2 + 'px';
       mapPinMain.style.left = DEFAULT_MAIN_PIN_X - PinSize.WIDTH / 2 + 'px';
