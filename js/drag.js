@@ -51,7 +51,7 @@
       if (mapPinMainPosition.y >= Border.TOP && mapPinMainPosition.y <= Border.BOTTOM) {
         mapPinMain.style.top = mapPinMainPosition.y + 'px';
       }
-      window.addres.fillAddress();
+      window.address.fillAddress();
     };
 
     var onMouseUp = function (upEvt) {

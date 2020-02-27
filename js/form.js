@@ -29,9 +29,6 @@
   var roomNumber = document.querySelector('#room_number');
   var capacityRoom = document.querySelector('#capacity');
 
-  adAddress.disabled = true;
-
-
   adAddress.value = Math.floor(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.floor(mapPinMain.offsetTop + mapPinMain.offsetHeight);
 
   var getMapPinMainCoords = function () {
@@ -87,36 +84,8 @@
   adFormReset.addEventListener('mousedown', window.page.deactivatePage);
   roomNumber.addEventListener('change', onRoomNumberChange);
 
-  var success = document.querySelector('.success');
 
-  var showSuccess = function () {
-    success.classList.remove('hidden');
-    success.addEventListener('keydown', function (evt) {
-      if (window.utils.keyEsc(evt)) {
-        success.classList.add('hidden');
-      }
-    });
-    document.addEventListener('click', function () {
-      success.classList.add('hidden');
-    });
-  };
-
-  var onSubmitSuccess = function () {
-    window.page.deactivatePage();
-    showSuccess();
-  };
-
-  var onSubmitError = function (errorMessage) {
-    window.error.renderErrorMessage(errorMessage);
-  };
-
-  adForm.addEventListener('submit', function (evt) {
-    evt.preventDefault();
-    var formData = new FormData(adForm);
-    window.backend.upload(onSubmitSuccess, onSubmitError, formData);
-  });
-
-  window.addres = {
+  window.address = {
     fillAddress: function () {
       var addressInputCoords = getMapPinMainCoords();
       adAddress.value = addressInputCoords.x + ', ' + addressInputCoords.y;
