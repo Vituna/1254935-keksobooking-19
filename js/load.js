@@ -24,8 +24,6 @@
   };
 
   var onUploadErrors = function () {
-    window.page.deactivatePage();
-    adForm.reset();
     document.querySelector('main').appendChild(error);
     errorElement = document.querySelector('.error');
   };
