@@ -2,7 +2,6 @@
 
 (function () {
 
-  var adForm = document.querySelector('.ad-form');
   var success = document.querySelector('#success').content.querySelector('.success');
   var error = document.querySelector('#error').content.querySelector('.error');
   var errorButton = error.querySelector('.error__button');
@@ -11,14 +10,13 @@
   var errorElement;
 
   var uploadForm = function (evt) {
-    var formData = new FormData(adForm);
+    var formData = new FormData(window.utils.adForm);
     window.backend.upload(formData, onUploadSuccess, onUploadErrors);
     evt.preventDefault();
   };
 
   var onUploadSuccess = function () {
     window.page.deactivatePage();
-    adForm.reset();
     document.querySelector('main').appendChild(success);
     successElement = document.querySelector('.success');
   };
@@ -56,7 +54,7 @@
   document.addEventListener('keydown', onKeyClose);
   document.addEventListener('keydown', onKeyClose);
 
-  adForm.addEventListener('submit', uploadForm);
+  window.utils.adForm.addEventListener('submit', uploadForm);
 
 
 })();

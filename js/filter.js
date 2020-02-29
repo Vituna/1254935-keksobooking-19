@@ -2,6 +2,7 @@
 
 (function () {
   var PINS_LIMIT = 5;
+  var DEBOUNCE_INTERVAL = 500;
 
   var PriceRange = {
     Low: {
@@ -56,37 +57,38 @@
     });
   };
 
-  var removePins = function () {
-    var mapPinsItems = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    for (var j = 0; j < mapPinsItems.length; j++) {
-      mapPinsItems[j].remove();
-    }
+  var debounce = function (fun) {
+    var lastTimeout = null;
+    return function () {
+      var args = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        fun.apply(null, args);
+      }, DEBOUNCE_INTERVAL);
+    };
   };
 
-  var removeMapCard = function () {
-    var mapCard = document.querySelector('.map__card');
-    if (mapCard) {
-      mapCard.remove();
-    }
-  };
-
-  var onFilterChange = function () {
+  var onFilterChange = debounce(function () {
     filteredData = data.slice(0);
     filteredData = filteredData.filter(filtrationByType);
     filteredData = filteredData.filter(filtrationByPrice);
     filteredData = filteredData.filter(filtrationByRooms);
     filteredData = filteredData.filter(filtrationByGuests);
     filteredData = filteredData.filter(filtrationByFeatures);
-    removePins();
-    removeMapCard();
+    window.pins.removePins();
+    window.card.removeCard();
     window.pins.renderPins(filteredData.slice(0, PINS_LIMIT));
-  };
+  });
 
   var resetFilter = function () {
     filterItems.forEach(function (it) {
       it.value = 'any';
     });
+
     var featuresItems = featuresFieldset.querySelectorAll('input');
+
     featuresItems.forEach(function (feature) {
       feature.checked = false;
     });

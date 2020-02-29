@@ -14,11 +14,10 @@
     PHOTO_WIDTH: '45',
     PHOTO_HEIGHT: '40'
   };
-
-  var map = document.querySelector('.map');
-  var mapFiltersContainer = map.querySelector('.map__filters-container');
-  var mapCard = document.querySelector('#card').content.querySelector('.map__card');
-  var announcementCard = mapCard.cloneNode(true);
+  var template = document.querySelector('template');
+  var adTemplate = template.content.querySelector('.map__card');
+  var mapFiltersContainer = document.querySelector('.map__filters-container');
+  var announcementCard = adTemplate.cloneNode(true);
   var popupClose = announcementCard.querySelector('.popup__close');
 
   var getPhotoRoom = function (photoSrc, fragment) {
@@ -29,6 +28,13 @@
     popupPhotoItem.width = Photo.PHOTO_WIDTH;
     popupPhotoItem.height = Photo.PHOTO_HEIGHT;
     fragment.appendChild(popupPhotoItem);
+  };
+
+  var removeCard = function () {
+    var mapCard = document.querySelector('.map__card');
+    if (mapCard) {
+      mapCard.remove();
+    }
   };
 
   var createPhotosFragment = function (elem) {
@@ -55,24 +61,24 @@
 
   var createFeatureFragment = function (elem) {
     var featureFragment = document.createDocumentFragment();
-    var elemFrag = elem.offer.features;
+    var elementFeatures = elem.offer.features;
     var popupFeatures = announcementCard.querySelector('.popup__features');
     popupFeatures.innerHTML = '';
-    if (elemFrag.length === 0) {
+    if (elementFeatures.length === 0) {
       popupFeatures.style.display = 'none';
     } else {
       popupFeatures.style.display = 'block';
-      elemFrag.forEach(function (popapFeat) {
+      elementFeatures.forEach(function (popapFeat) {
         getFeature(popapFeat, featureFragment);
       });
     }
-
     return featureFragment;
   };
 
   var onPopupClik = function (evt) {
-    window.utils.mouseClik(evt, announcementCard.remove());
+    window.utils.mouseClik(evt, onPopupClose);
   };
+
   var onPopupClose = function () {
     announcementCard.remove();
   };
@@ -82,28 +88,29 @@
   };
 
   popupClose.addEventListener('mousedown', onPopupClik);
+  window.utils.map.addEventListener('keydown', onPopupEsc);
 
-  map.addEventListener('keydown', onPopupEsc);
+
+  var createAd = function (card) {
+    announcementCard.querySelector('.popup__avatar').src = card.author.avatar;
+    announcementCard.querySelector('.popup__title').textContent = card.offer.title;
+    announcementCard.querySelector('.popup__text--address').textContent = card.offer.address;
+    announcementCard.querySelector('.popup__text--price').textContent = card.offer.price + ' ₽/ночь';
+    announcementCard.querySelector('.popup__type').textContent = TypesRoomRus[card.offer.type];
+    announcementCard.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
+    announcementCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
+    announcementCard.querySelector('.popup__features').appendChild(createFeatureFragment(card));
+    announcementCard.querySelector('.popup__photos').appendChild(createPhotosFragment(card));
+    announcementCard.querySelector('.popup__description').textContent = card.offer.description;
+
+    mapFiltersContainer.insertAdjacentElement('beforebegin', announcementCard);
+
+    return announcementCard;
+  };
 
   window.card = {
-
-    createAd: function (card) {
-      announcementCard.querySelector('.popup__avatar').src = card.author.avatar;
-      announcementCard.querySelector('.popup__title').textContent = card.offer.title;
-      announcementCard.querySelector('.popup__text--address').textContent = card.offer.address;
-      announcementCard.querySelector('.popup__text--price').textContent = card.offer.price + ' ₽/ночь';
-      announcementCard.querySelector('.popup__type').textContent = TypesRoomRus[card.offer.type];
-      announcementCard.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
-      announcementCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
-      announcementCard.querySelector('.popup__features').appendChild(createFeatureFragment(card));
-      announcementCard.querySelector('.popup__photos').appendChild(createPhotosFragment(card));
-      announcementCard.querySelector('.popup__description').textContent = card.offer.description;
-
-      mapFiltersContainer.insertAdjacentElement('beforebegin', announcementCard);
-
-
-      return announcementCard;
-    },
+    createAd: createAd,
+    removeCard: removeCard
   };
 
 
