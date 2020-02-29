@@ -13,10 +13,6 @@
     }
   };
 
-  var map = document.querySelector('.map');
-  var mapPinMain = map.querySelector('.map__pin--main');
-
-
   var drag = function (evt) {
     evt.preventDefault();
     var startCoords = {
@@ -25,10 +21,10 @@
     };
 
     var Border = {
-      TOP: DragLimit.Y.MIN - mapPinMain.offsetHeight,
-      BOTTOM: DragLimit.Y.MAX - mapPinMain.offsetHeight,
+      TOP: DragLimit.Y.MIN - window.utils.mapPinMain.offsetHeight,
+      BOTTOM: DragLimit.Y.MAX - window.utils.mapPinMain.offsetHeight,
       LEFT: DragLimit.X.MIN,
-      RIGHT: DragLimit.X.MAX - mapPinMain.offsetWidth
+      RIGHT: DragLimit.X.MAX - window.utils.mapPinMain.offsetWidth
     };
 
     var onMouseMove = function (moveEvt) {
@@ -45,16 +41,16 @@
       };
 
       var mapPinMainPosition = {
-        x: mapPinMain.offsetLeft - shift.x,
-        y: mapPinMain.offsetTop - shift.y
+        x: window.utils.mapPinMain.offsetLeft - shift.x,
+        y: window.utils.mapPinMain.offsetTop - shift.y
       };
 
       if (mapPinMainPosition.x >= Border.LEFT && mapPinMainPosition.x <= Border.RIGHT) {
-        mapPinMain.style.left = mapPinMainPosition.x + 'px';
+        window.utils.mapPinMain.style.left = mapPinMainPosition.x + 'px';
       }
 
       if (mapPinMainPosition.y >= Border.TOP && mapPinMainPosition.y <= Border.BOTTOM) {
-        mapPinMain.style.top = mapPinMainPosition.y + 'px';
+        window.utils.mapPinMain.style.top = mapPinMainPosition.y + 'px';
       }
 
       window.address.fillAddress();
@@ -63,15 +59,15 @@
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-      map.removeEventListener('mousemove', onMouseMove);
-      map.removeEventListener('mouseup', onMouseUp);
+      window.utils.map.removeEventListener('mousemove', onMouseMove);
+      window.utils.map.removeEventListener('mouseup', onMouseUp);
     };
 
-    map.addEventListener('mousemove', onMouseMove);
-    map.addEventListener('mouseup', onMouseUp);
+    window.utils.map.addEventListener('mousemove', onMouseMove);
+    window.utils.map.addEventListener('mouseup', onMouseUp);
   };
 
-  mapPinMain.addEventListener('mousedown', drag);
+  window.utils.mapPinMain.addEventListener('mousedown', drag);
 
 
 })();

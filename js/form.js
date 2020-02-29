@@ -15,12 +15,9 @@
     'house': 5000,
     'palace': 10000
   };
-
-  var map = document.querySelector('.map');
-  var mapPinMain = map.querySelector('.map__pin--main');
+  var fieldsets = document.querySelectorAll('.ad-form__element');
+  var adFormReset = document.querySelector('.ad-form__reset');
   var adAddress = document.querySelector('#address');
-  var adForm = document.querySelector('.ad-form');
-  var adFormReset = adForm.querySelector('.ad-form__reset');
   var addTitle = document.querySelector('#title');
   var adPrice = document.querySelector('#price');
   var addType = document.querySelector('#type');
@@ -29,15 +26,27 @@
   var roomNumber = document.querySelector('#room_number');
   var capacityRoom = document.querySelector('#capacity');
 
-  adAddress.value = Math.floor(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.floor(mapPinMain.offsetTop + mapPinMain.offsetHeight);
+  var findsFieldsetsDisconnects = function (disconnect) {
+    fieldsets.forEach(function (data) {
+      data.disabled = disconnect;
+    });
+  };
+
+  adAddress.value = Math.floor(window.utils.mapPinMain.offsetLeft + window.utils.mapPinMain.offsetWidth / 2) + ', ' + Math.floor(window.utils.mapPinMain.offsetTop + window.utils.mapPinMain.offsetHeight);
 
   var getMapPinMainCoords = function () {
     var mapPinMainPosition = {
-      x: mapPinMain.offsetLeft + Math.floor(mapPinMain.offsetWidth / 2),
-      y: mapPinMain.offsetTop + mapPinMain.offsetHeight
+      x: window.utils.mapPinMain.offsetLeft + Math.floor(window.utils.mapPinMain.offsetWidth / 2),
+      y: window.utils.mapPinMain.offsetTop + window.utils.mapPinMain.offsetHeight
     };
     return mapPinMainPosition;
   };
+
+  var fillAddress = function () {
+    var addressInputCoords = getMapPinMainCoords();
+    adAddress.value = addressInputCoords.x + ', ' + addressInputCoords.y;
+  };
+
 
   var onRoomNumberChange = function () {
     if (capacityRoom.options.length) {
@@ -84,12 +93,12 @@
   adFormReset.addEventListener('mousedown', window.page.deactivatePage);
   roomNumber.addEventListener('change', onRoomNumberChange);
 
+  findsFieldsetsDisconnects(true);
 
-  window.address = {
-    fillAddress: function () {
-      var addressInputCoords = getMapPinMainCoords();
-      adAddress.value = addressInputCoords.x + ', ' + addressInputCoords.y;
-    },
+
+  window.form = {
+    findsFieldsetsDisconnects: findsFieldsetsDisconnects,
+    fillAddress: fillAddress
   };
 
 

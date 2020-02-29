@@ -4,12 +4,17 @@
   var MOUSE_LEFT_BUTTON = 0;
   var ESC_KEY = 'Escape';
   var ENTER_KEY = 'Enter';
-  var DEBOUNCE_INTERVAL = 300;
-
 
   window.utils = {
-    mouseClik: function (evt) {
-      return evt.button === MOUSE_LEFT_BUTTON;
+
+    map: document.querySelector('.map'),
+    mapPinMain: document.querySelector('.map__pin--main'),
+    adForm: document.querySelector('.ad-form'),
+
+    mouseClik: function (evt, cd) {
+      if (evt.button === MOUSE_LEFT_BUTTON) {
+        cd();
+      }
     },
 
     keyEsc: function (evt, cd) {
@@ -22,7 +27,6 @@
       if (evt.key === ENTER_KEY) {
         cd();
       }
-
     },
 
     getRandom: function (min, max) {
@@ -31,19 +35,6 @@
 
     getRandomArrElement: function (arr) {
       return arr[Math.floor(Math.random() * arr.length)];
-    },
-
-    debounce: function (fun) {
-      var lastTimeout = null;
-      return function () {
-        var args = arguments;
-        if (lastTimeout) {
-          window.clearTimeout(lastTimeout);
-        }
-        lastTimeout = window.setTimeout(function () {
-          fun.apply(null, args);
-        }, DEBOUNCE_INTERVAL);
-      };
     },
   };
 
