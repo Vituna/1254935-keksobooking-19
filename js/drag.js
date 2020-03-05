@@ -29,7 +29,6 @@
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
-
       var shift = {
         x: startCoords.x - moveEvt.clientX,
         y: startCoords.y - moveEvt.clientY
@@ -52,9 +51,7 @@
       if (mapPinMainPosition.y >= Border.TOP && mapPinMainPosition.y <= Border.BOTTOM) {
         window.utils.mapPinMain.style.top = mapPinMainPosition.y + 'px';
       }
-
-      window.address.fillAddress();
-
+      window.form.fillAddress();
     };
 
     var onMouseUp = function (upEvt) {
@@ -62,12 +59,10 @@
       window.utils.map.removeEventListener('mousemove', onMouseMove);
       window.utils.map.removeEventListener('mouseup', onMouseUp);
     };
-
     window.utils.map.addEventListener('mousemove', onMouseMove);
     window.utils.map.addEventListener('mouseup', onMouseUp);
   };
 
   window.utils.mapPinMain.addEventListener('mousedown', drag);
-
 
 })();

@@ -4,7 +4,6 @@
 
   var isActivate = true;
 
-
   var onLoadSuccess = function (adData) {
     window.filter.activateFiltration(adData);
   };
@@ -28,6 +27,7 @@
     window.backend.load(onLoadSuccess);
     if (isActivate) {
       toggleActivation();
+      window.form.fillAddress();
       window.form.findsFieldsetsDisconnects(false);
       isActivate = false;
     }
@@ -41,7 +41,8 @@
     window.card.removeCard();
     window.pins.removePins();
     window.filter.deactivateFiltration();
-    window.pins.defaultPins();
+    window.image.resetForm();
+    window.pins.getMapPinMainDefault();
   };
 
   window.utils.mapPinMain.addEventListener('mousedown', onPopupClik);
