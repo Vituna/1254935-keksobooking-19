@@ -34,19 +34,10 @@
 
   adAddress.value = Math.floor(window.utils.mapPinMain.offsetLeft + window.utils.mapPinMain.offsetWidth / 2) + ', ' + Math.floor(window.utils.mapPinMain.offsetTop + window.utils.mapPinMain.offsetHeight);
 
-  var getMapPinMainCoords = function () {
-    var mapPinMainPosition = {
-      x: window.utils.mapPinMain.offsetLeft + Math.floor(window.utils.mapPinMain.offsetWidth / 2),
-      y: window.utils.mapPinMain.offsetTop + window.utils.mapPinMain.offsetHeight
-    };
-    return mapPinMainPosition;
-  };
-
   var fillAddress = function () {
-    var addressInputCoords = getMapPinMainCoords();
+    var addressInputCoords = window.pins.getMapPinMainCoords();
     adAddress.value = addressInputCoords.x + ', ' + addressInputCoords.y;
   };
-
 
   var onRoomNumberChange = function () {
     if (capacityRoom.options.length) {
@@ -71,8 +62,6 @@
     }
   };
 
-  addTitle.addEventListener('invalid', headline);
-
   var setPriceMin = function (input, data) {
     input.min = data;
     input.placeholder = data;
@@ -92,13 +81,13 @@
 
   adFormReset.addEventListener('mousedown', window.page.deactivatePage);
   roomNumber.addEventListener('change', onRoomNumberChange);
+  addTitle.addEventListener('invalid', headline);
 
   findsFieldsetsDisconnects(true);
 
-
   window.form = {
     findsFieldsetsDisconnects: findsFieldsetsDisconnects,
-    fillAddress: fillAddress
+    fillAddress: fillAddress,
   };
 
 
