@@ -86,9 +86,7 @@
     filterItems.forEach(function (it) {
       it.value = 'any';
     });
-
     var featuresItems = featuresFieldset.querySelectorAll('input');
-
     featuresItems.forEach(function (feature) {
       feature.checked = false;
     });
@@ -110,17 +108,20 @@
     filter.removeEventListener('change', onFilterChange);
   };
 
-  window.filter = {
-    activateFiltration: function (adData) {
-      data = adData.slice(0);
-      activateFilter();
-      return adData.slice(0, PINS_LIMIT);
-    },
+  var activateFiltration = function (adData) {
+    data = adData.slice(0);
+    activateFilter();
+    return adData.slice(0, PINS_LIMIT);
+  };
 
-    deactivateFiltration: function () {
-      deactivateFilter();
-      filter.reset();
-    }
+  var deactivateFiltration = function () {
+    deactivateFilter();
+    filter.reset();
+  };
+
+  window.filter = {
+    activateFiltration: activateFiltration,
+    deactivateFiltration: deactivateFiltration
   };
 
 })();

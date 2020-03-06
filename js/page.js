@@ -4,13 +4,12 @@
 
   var isActivate = true;
 
-
   var onLoadSuccess = function (adData) {
     window.filter.activateFiltration(adData);
   };
 
-  var onPopupClik = function (evt) {
-    window.utils.mouseClik(evt, activatePage);
+  var onPinClick = function (evt) {
+    window.utils.mouseClick(evt, activatePage);
   };
 
   var onPinEnter = function (evt) {
@@ -18,7 +17,7 @@
   };
 
   var toggleActivation = function () {
-    if (window.utils.mouseClik) {
+    if (window.utils.mouseClick) {
       window.utils.map.classList.toggle('map--faded');
       window.utils.adForm.classList.toggle('ad-form--disabled');
     }
@@ -28,6 +27,7 @@
     window.backend.load(onLoadSuccess);
     if (isActivate) {
       toggleActivation();
+      window.form.fillAddress();
       window.form.findsFieldsetsDisconnects(false);
       isActivate = false;
     }
@@ -41,10 +41,11 @@
     window.card.removeCard();
     window.pins.removePins();
     window.filter.deactivateFiltration();
-    window.pins.defaultPins();
+    window.image.resetForm();
+    window.pins.getMapPinMainDefault();
   };
 
-  window.utils.mapPinMain.addEventListener('mousedown', onPopupClik);
+  window.utils.mapPinMain.addEventListener('mousedown', onPinClick);
   window.utils.mapPinMain.addEventListener('keydown', onPinEnter);
 
   window.page = {

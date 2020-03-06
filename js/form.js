@@ -15,6 +15,7 @@
     'house': 5000,
     'palace': 10000
   };
+
   var fieldsets = document.querySelectorAll('.ad-form__element');
   var adFormReset = document.querySelector('.ad-form__reset');
   var adAddress = document.querySelector('#address');
@@ -34,25 +35,16 @@
 
   adAddress.value = Math.floor(window.utils.mapPinMain.offsetLeft + window.utils.mapPinMain.offsetWidth / 2) + ', ' + Math.floor(window.utils.mapPinMain.offsetTop + window.utils.mapPinMain.offsetHeight);
 
-  var getMapPinMainCoords = function () {
-    var mapPinMainPosition = {
-      x: window.utils.mapPinMain.offsetLeft + Math.floor(window.utils.mapPinMain.offsetWidth / 2),
-      y: window.utils.mapPinMain.offsetTop + window.utils.mapPinMain.offsetHeight
-    };
-    return mapPinMainPosition;
-  };
-
   var fillAddress = function () {
-    var addressInputCoords = getMapPinMainCoords();
+    var addressInputCoords = window.pins.getMapPinMainCoords();
     adAddress.value = addressInputCoords.x + ', ' + addressInputCoords.y;
   };
-
 
   var onRoomNumberChange = function () {
     if (capacityRoom.options.length) {
       [].forEach.call(capacityRoom.options, function (item) {
-        item.selected = (ROOMS_CAPACITY[roomNumber.value][0] === item.value) ? true : false;
-        item.hidden = (ROOMS_CAPACITY[roomNumber.value].indexOf(item.value) >= 0) ? false : true;
+        item.selected = (ROOMS_CAPACITY[roomNumber.value][0] === item.value);
+        item.hidden = (ROOMS_CAPACITY[roomNumber.value].indexOf(item.value) < 0);
       });
     } else {
       capacityRoom.setCustomValidity('');
@@ -70,8 +62,6 @@
       addTitle.setCustomValidity('');
     }
   };
-
-  addTitle.addEventListener('invalid', headline);
 
   var setPriceMin = function (input, data) {
     input.min = data;
@@ -92,13 +82,13 @@
 
   adFormReset.addEventListener('mousedown', window.page.deactivatePage);
   roomNumber.addEventListener('change', onRoomNumberChange);
+  addTitle.addEventListener('invalid', headline);
 
   findsFieldsetsDisconnects(true);
 
-
   window.form = {
     findsFieldsetsDisconnects: findsFieldsetsDisconnects,
-    fillAddress: fillAddress
+    fillAddress: fillAddress,
   };
 
 

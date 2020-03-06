@@ -11,7 +11,7 @@
     mapPinMain: document.querySelector('.map__pin--main'),
     adForm: document.querySelector('.ad-form'),
 
-    mouseClik: function (evt, cd) {
+    mouseClick: function (evt, cd) {
       if (evt.button === MOUSE_LEFT_BUTTON) {
         cd();
       }
@@ -27,14 +27,6 @@
       if (evt.key === ENTER_KEY) {
         cd();
       }
-    },
-
-    getRandom: function (min, max) {
-      return Math.floor(Math.random() * (max - min) + min);
-    },
-
-    getRandomArrElement: function (arr) {
-      return arr[Math.floor(Math.random() * arr.length)];
     },
   };
 
