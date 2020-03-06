@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+
   var PINS_LIMIT = 5;
   var DEBOUNCE_INTERVAL = 500;
 

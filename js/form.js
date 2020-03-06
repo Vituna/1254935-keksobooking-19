@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+
   var MIN_NAME_LENGTH = 30;
   var MAX_NAME_LENGTH = 100;
   var ROOMS_CAPACITY = {

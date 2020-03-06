@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+
   var MOUSE_LEFT_BUTTON = 0;
   var ESC_KEY = 'Escape';
   var ENTER_KEY = 'Enter';
