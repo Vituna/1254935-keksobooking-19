@@ -47,11 +47,10 @@
   };
 
   var getMapPinMainCoords = function () {
-    var mapPinMainPosition = {
+    return {
       x: Math.floor(window.utils.mapPinMain.offsetLeft + window.utils.mapPinMain.offsetWidth / 2),
       y: Math.floor(window.utils.mapPinMain.offsetTop + window.utils.mapPinMain.offsetHeight - PinSize.HEIGHT / 2)
     };
-    return mapPinMainPosition;
   };
 
   var getMapPinMainDefault = function () {

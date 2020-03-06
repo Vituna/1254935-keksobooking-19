@@ -95,21 +95,21 @@
     announcementCard.remove();
   };
 
-  var onPopupClik = function (evt) {
-    window.utils.mouseClik(evt, onPopupClose);
+  var onCLoseButtonClick = function (evt) {
+    window.utils.mouseClick(evt, onPopupClose);
   };
 
-  var onPopupEsc = function (evt) {
+  var onPressEsc = function (evt) {
     window.utils.keyEsc(evt, onPopupClose);
   };
 
-  var onPopupEnter = function (evt) {
+  var onPressEnter = function (evt) {
     window.utils.keyEnter(evt, onPopupClose);
   };
 
-  popupClose.addEventListener('mousedown', onPopupClik);
-  window.utils.map.addEventListener('keydown', onPopupEsc);
-  window.utils.map.addEventListener('keydown', onPopupEnter);
+  popupClose.addEventListener('mousedown', onCLoseButtonClick);
+  window.utils.map.addEventListener('keydown', onPressEsc);
+  window.utils.map.addEventListener('keydown', onPressEnter);
 
   window.card = {
     createAd: createAd,

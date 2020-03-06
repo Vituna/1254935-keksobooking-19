@@ -15,6 +15,7 @@
     'house': 5000,
     'palace': 10000
   };
+
   var fieldsets = document.querySelectorAll('.ad-form__element');
   var adFormReset = document.querySelector('.ad-form__reset');
   var adAddress = document.querySelector('#address');
@@ -42,8 +43,8 @@
   var onRoomNumberChange = function () {
     if (capacityRoom.options.length) {
       [].forEach.call(capacityRoom.options, function (item) {
-        item.selected = (ROOMS_CAPACITY[roomNumber.value][0] === item.value) ? true : false;
-        item.hidden = (ROOMS_CAPACITY[roomNumber.value].indexOf(item.value) >= 0) ? false : true;
+        item.selected = (ROOMS_CAPACITY[roomNumber.value][0] === item.value);
+        item.hidden = (ROOMS_CAPACITY[roomNumber.value].indexOf(item.value) < 0);
       });
     } else {
       capacityRoom.setCustomValidity('');
